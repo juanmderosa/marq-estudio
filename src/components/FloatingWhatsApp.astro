@@ -1,0 +1,92 @@
+---
+import { directWhatsAppUrl } from "../lib/contact";
+---
+
+<aside
+  class="whatsapp-dock"
+  aria-label="Contacto rápido">
+  <a
+    class="floating-whatsapp"
+    href={directWhatsAppUrl}
+    target="_blank"
+    rel="noopener noreferrer">
+    <svg
+      viewBox="0 0 24 24"
+      width="24"
+      height="24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true">
+      <path d="M21 11.5a9 9 0 0 1-13.3 7.9L3 21l1.6-4.7A9 9 0 1 1 21 11.5Z"
+      ></path>
+      <path
+        d="m8.1 7.1 1.7 2.5-1 1.2a8.5 8.5 0 0 0 4.4 4.4l1.2-1 2.5 1.7c-.4 1.4-1.4 2-2.6 1.6-4.1-1.2-7-4.1-8.2-8.2-.4-1.2.2-2.2 1.6-2.6Z"
+      ></path>
+    </svg>
+    <span>WhatsApp</span>
+    <span class="sr-only"
+      >: consultar con Mariana (abre en una pestaña nueva)</span
+    >
+  </a>
+</aside>
+<style>
+  .whatsapp-dock {
+    position: fixed;
+    z-index: 30;
+    inset: auto 0 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px max(20px, env(safe-area-inset-right))
+      calc(14px + env(safe-area-inset-bottom));
+    /*     background: #232323; */
+    /*     border-top: 1px solid #494643; */
+  }
+  .floating-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    background: #c8a99d;
+    color: #232323;
+    font-size: 16px;
+    font-weight: 650;
+    line-height: 1.5;
+  }
+  .floating-whatsapp:hover {
+    background: #e0c1b5;
+  }
+  .floating-whatsapp:focus-visible {
+    outline: 3px solid #faf8f4;
+    outline-offset: 4px;
+  }
+  :global(body) {
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+  :global(html) {
+    scroll-padding-bottom: calc(100px + env(safe-area-inset-bottom));
+  }
+  @media (max-width: 700px) {
+    .whatsapp-dock {
+      padding-inline: 16px;
+    }
+  }
+</style>
+<script>
+  // Keep keyboard focus and the form's first invalid field above the fixed dock.
+  document.addEventListener("focusin", (event) => {
+    const target = event.target;
+    const dock = document.querySelector<HTMLElement>(".whatsapp-dock");
+    if (!(target instanceof HTMLElement) || !dock || dock.contains(target))
+      return;
+    const rect = target.getBoundingClientRect();
+    if (rect.bottom > dock.getBoundingClientRect().top - 12) {
+      target.scrollIntoView({ block: "center", behavior: "instant" });
+    }
+  });
+</script>
