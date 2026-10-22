@@ -1,0 +1,35 @@
+---
+import ContactForm from "./ContactForm.astro";
+import { business } from "../data/business";
+import { directWhatsAppUrl } from "../lib/contact";
+---
+
+<section
+  class="contact section-space container"
+  id="contacto"
+  aria-labelledby="contact-title">
+  <div class="contact-copy">
+    <p class="eyebrow">03 / Hablemos</p><h2 id="contact-title">
+      ¿Tenés un<br />proyecto<br /><span>en mente?</span>
+    </h2><p>Escribime y coordinamos una consulta.</p><div
+      class="contact-details">
+      <div>
+        <span class="detail-label">WhatsApp</span><a
+          href={directWhatsAppUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          >{business.phone}
+          <span aria-hidden="true">↗</span><span class="sr-only"
+            >(abre en una pestaña nueva)</span
+          ></a>
+      </div><div>
+        <span class="detail-label">Ubicación</span><span
+          >{business.location}, Buenos Aires</span>
+      </div><a
+        class="call-link"
+        href={`tel:${business.telephone}`}
+        >También podés llamar al 11 7363-6120</a>
+    </div>
+  </div>
+  <ContactForm />
+</section>

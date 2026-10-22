@@ -1,0 +1,88 @@
+---
+import BrandLogo from "./BrandLogo.astro";
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <BrandLogo />
+    <button
+      id="menu-button"
+      class="menu-button"
+      aria-controls="main-nav"
+      aria-expanded="false"
+      hidden
+      ><span>Menú</span><span
+        class="menu-lines"
+        aria-hidden="true"
+      ></span></button
+    >
+    <nav
+      id="main-nav"
+      aria-label="Navegación principal">
+      <a href="#servicios">Servicios</a>
+      <a href="#estudio">Estudio</a>
+      <a
+        href="#contacto"
+        class="nav-contact"
+        >Hablemos <span aria-hidden="true">↗</span></a
+      >
+    </nav>
+  </div>
+</header>
+<script>
+  const menuButton = document.querySelector<HTMLButtonElement>("#menu-button")!;
+  const nav = document.querySelector<HTMLElement>("#main-nav")!;
+  const mobile = window.matchMedia("(max-width: 700px)");
+  function setMenu(open: boolean, returnFocus = false) {
+    nav.hidden = mobile.matches && !open;
+    menuButton.setAttribute("aria-expanded", String(mobile.matches && open));
+    if (returnFocus) menuButton.focus();
+  }
+  function syncMenu() {
+    const focusInNav = nav.contains(document.activeElement);
+    menuButton.hidden = !mobile.matches;
+    setMenu(false, mobile.matches && focusInNav);
+  }
+  syncMenu();
+  mobile.addEventListener("change", syncMenu);
+  menuButton.addEventListener("click", () =>
+    setMenu(menuButton.getAttribute("aria-expanded") !== "true"),
+  );
+  document.addEventListener("keydown", (event) => {
+    if (
+      event.key === "Escape" &&
+      menuButton.getAttribute("aria-expanded") === "true"
+    )
+      setMenu(false, true);
+  });
+  document.addEventListener("click", (event) => {
+    if (
+      event.target instanceof Node &&
+      !document.querySelector(".site-header")!.contains(event.target)
+    )
+      setMenu(false);
+  });
+  nav.addEventListener("focusout", (event) => {
+    if (
+      event.relatedTarget instanceof Node &&
+      !nav.contains(event.relatedTarget) &&
+      event.relatedTarget !== menuButton
+    )
+      setMenu(false);
+  });
+  nav.querySelectorAll("a").forEach((link) =>
+    link.addEventListener("click", () => {
+      setMenu(false);
+      const destination = document.querySelector<HTMLElement>(link.hash);
+      if (mobile.matches && destination) {
+        destination.setAttribute("tabindex", "-1");
+        destination.focus({ preventScroll: true });
+        destination.addEventListener(
+          "blur",
+          () => destination.removeAttribute("tabindex"),
+          { once: true },
+        );
+      }
+    }),
+  );
+</script>

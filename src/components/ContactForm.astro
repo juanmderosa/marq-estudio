@@ -1,0 +1,160 @@
+---
+import { serviceOptions } from "../data/business";
+import { directWhatsAppUrl } from "../lib/contact";
+---
+
+<form
+  id="contact-form"
+  novalidate>
+  <div class="form-top">
+    <span class="eyebrow">Tu próximo espacio empieza acá</span><span
+      aria-hidden="true">↗</span
+    >
+  </div>
+  <div class="field">
+    <label for="name">Tu nombre <span>(obligatorio)</span></label>
+    <input
+      id="name"
+      name="name"
+      autocomplete="name"
+      required
+      maxlength="100"
+      placeholder="¿Cómo te llamás?"
+      aria-describedby="name-error"
+    />
+    <p
+      id="name-error"
+      class="field-error"
+      hidden>
+    </p>
+  </div>
+  <div class="field">
+    <label for="service"
+      >¿En qué podemos trabajar? <span>(obligatorio)</span></label
+    >
+    <select
+      id="service"
+      name="service"
+      required
+      aria-describedby="service-error">
+      <option value="">Elegí un servicio</option>
+      {serviceOptions.map((option) => <option value={option}>{option}</option>)}
+    </select>
+    <p
+      id="service-error"
+      class="field-error"
+      hidden>
+    </p>
+  </div>
+  <div class="field">
+    <label for="message">Contame tu idea <span>(obligatorio)</span></label>
+    <textarea
+      id="message"
+      name="message"
+      required
+      maxlength="2000"
+      rows="4"
+      placeholder="Un proyecto, una remodelación, una duda…"
+      aria-describedby="message-error"
+    ></textarea>
+    <p
+      id="message-error"
+      class="field-error"
+      hidden>
+    </p>
+  </div>
+  <p
+    class="form-note"
+    id="send-note">
+    Se abrirá WhatsApp en una pestaña nueva con tu consulta preparada. Revisá el
+    mensaje y confirmá el envío allí.
+  </p>
+  <button
+    type="submit"
+    class="button button-primary form-submit"
+    aria-describedby="send-note"
+    >Preparar consulta en WhatsApp <span aria-hidden="true">↗</span></button
+  >
+  <p
+    id="form-status"
+    role="status"
+    class="form-status">
+  </p>
+  <a
+    id="message-fallback"
+    href={directWhatsAppUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    hidden
+    >Abrir la consulta preparada en WhatsApp <span class="sr-only"
+      >(pestaña nueva)</span
+    ></a
+  >
+  <noscript
+    ><p>
+      Para preparar el mensaje con este formulario necesitás JavaScript. También
+      podés <a
+        href={directWhatsAppUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        >escribir directamente por WhatsApp (pestaña nueva)</a
+      >.
+    </p></noscript
+  >
+</form>
+<script>
+  import {
+    buildWhatsAppUrl,
+    validateContact,
+    type ContactData,
+  } from "../lib/contact";
+  const form = document.querySelector<HTMLFormElement>("#contact-form")!;
+  const keys = ["name", "service", "message"] as const;
+  const status = document.querySelector<HTMLElement>("#form-status")!;
+  const fallback =
+    document.querySelector<HTMLAnchorElement>("#message-fallback")!;
+  function getData(): ContactData {
+    const data = new FormData(form);
+    return {
+      name: String(data.get("name") ?? ""),
+      service: String(data.get("service") ?? ""),
+      message: String(data.get("message") ?? ""),
+    };
+  }
+  function showErrors() {
+    const errors = validateContact(getData());
+    for (const key of keys) {
+      const control = form.elements.namedItem(key) as
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+      const error = document.getElementById(`${key}-error`)!;
+      error.textContent = errors[key] ?? "";
+      error.hidden = !errors[key];
+      if (errors[key]) control.setAttribute("aria-invalid", "true");
+      else control.removeAttribute("aria-invalid");
+    }
+    return errors;
+  }
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    status.textContent = "";
+    fallback.hidden = true;
+    const errors = showErrors();
+    const first = keys.find((key) => errors[key]);
+    if (first) {
+      (form.elements.namedItem(first) as HTMLElement).focus();
+      return;
+    }
+    const url = buildWhatsAppUrl(getData());
+    // Open synchronously within the user gesture. No request or personal data is stored.
+    window.open(url, "_blank", "noopener,noreferrer");
+    fallback.href = url;
+    fallback.hidden = false;
+    status.textContent =
+      "Tu consulta está preparada. Confirmá el envío en WhatsApp. Si no se abrió, usá el enlace de abajo.";
+  });
+  form.addEventListener("input", () => {
+    status.textContent = "";
+    fallback.hidden = true;
+    if (form.querySelector("[aria-invalid]")) showErrors();
+  });
+</script>

@@ -1,0 +1,62 @@
+---
+import { Picture } from 'astro:assets';
+import interior from '../assets/images/interior.webp';
+---
+<section
+  class="hero container"
+  aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="eyebrow">Mariana Toledo · Arquitecta</p>
+    <h1 id="hero-title">
+      Pensar,<br />proyectar,<br /><span>materializar.</span>
+    </h1>
+    <p class="hero-description">
+      Arquitectura, diseño y dirección de obra.<br class="desktop-break" /> Espacios
+      pensados según cada necesidad.
+    </p>
+    <a
+      href="#contacto"
+      class="button button-primary"
+      >Contame tu proyecto <span aria-hidden="true">↗</span></a
+    >
+    <p class="location">
+      <span
+        class="location-dot"
+        aria-hidden="true"
+      ></span> Gral. Las Heras · Buenos Aires
+    </p>
+  </div>
+  <figure class="hero-figure">
+    <div class="hero-image-wrap">
+      <Picture
+        class="hero-image"
+        src={interior}
+        formats={['avif', 'webp']}
+        fallbackFormat="jpeg"
+        quality={40}
+        widths={[320, 420, 540, 720, 1080, 1200]}
+        sizes="(max-width: 380px) 90vw, (max-width: 700px) 88vw, (max-width: 1000px) 41.15vw, (max-width: 1364px) 39.4vw, 537px"
+        width="1200"
+        height="900"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+        alt="Interior de referencia con materiales cálidos, luz natural y espacios conectados."
+      /><span
+        class="image-index"
+        aria-hidden="true"
+        >ESPACIO / LUZ / MATERIA</span>
+    </div>
+    <figcaption>
+      Fotografía ilustrativa · No corresponde a una obra del estudio.
+    </figcaption>
+  </figure>
+</section>
+<div
+  class="hero-baseline container"
+  aria-hidden="true">
+  <span>Diseño con intención.</span><span class="baseline-line"></span><a
+    href="#servicios"
+    tabindex="-1"
+    >Conocé los servicios ↓</a>
+</div>

@@ -1,0 +1,26 @@
+---
+import { Picture } from 'astro:assets';
+import logo from '../assets/images/marq-logo.png';
+interface Props {
+  loading?: "eager" | "lazy";
+}
+const { loading = "eager" } = Astro.props;
+---
+
+<a
+  class="brand"
+  href="#inicio"
+  aria-label="Marq Estudio, inicio">
+  <Picture
+    src={logo}
+    formats={['webp']}
+    fallbackFormat="png"
+    quality={100}
+    widths={[135, 150, 185, 225]}
+    sizes="(max-width: 380px) 135px, (max-width: 700px) 150px, 185px"
+    width="225"
+    height="80"
+    loading={loading}
+    alt="Marq Estudio"
+  />
+</a>

@@ -1,0 +1,62 @@
+---
+import { services } from "../data/business";
+---
+
+<section
+  class="services section-space container"
+  id="servicios"
+  aria-labelledby="services-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow">01 / Qué hacemos</p><h2 id="services-title">
+        Del proyecto<br />a la obra.
+      </h2>
+    </div><p>
+      Cada espacio plantea una necesidad.<br />Encontrá el acompañamiento para
+      tu próxima etapa.
+    </p>
+  </div>
+  <div class="services-grid">
+    {
+      services.map((service, index) => (
+        <article
+          class:list={["service-card", { "service-card-wide": index > 2 }]}>
+          <div class="service-top">
+            <>
+              <span class="service-number">0{index + 1}</span>
+              <span
+                aria-hidden="true"
+                class="service-mark">
+                {["⌑", "⊞", "↗", "▤", "+"][index]}
+              </span>
+            </>
+          </div>
+          <p class="service-label">{service.label}</p>
+          <h3>{service.title}</h3>
+          <p>{service.description}</p>
+          <a
+            href="#contacto"
+            data-service={service.title}
+            class="service-link">
+            Consultar{" "}
+            <>
+              <span class="sr-only">por {service.title}</span>
+              <span aria-hidden="true">↗</span>
+            </>
+          </a>
+        </article>
+      ))
+    }
+  </div>
+</section>
+<script>
+  document
+    .querySelectorAll<HTMLAnchorElement>("[data-service]")
+    .forEach((link) =>
+      link.addEventListener("click", () => {
+        const service = document.querySelector<HTMLSelectElement>("#service")!;
+        service.value = link.dataset.service ?? "";
+        service.dispatchEvent(new Event("input", { bubbles: true }));
+      }),
+    );
+</script>

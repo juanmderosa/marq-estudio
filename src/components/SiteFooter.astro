@@ -1,0 +1,27 @@
+---
+import BrandLogo from "./BrandLogo.astro";
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+      <BrandLogo loading="lazy" /><p class="footer-tagline">
+        Arquitectura · Diseño · Dirección de obra
+      </p><a
+        href="#contacto"
+        class="footer-contact"
+        >Hablemos de tu proyecto <span aria-hidden="true">↗</span></a
+      >
+    </div><div class="footer-bottom">
+      <span>© {year} Marq Estudio.</span><span class="developer-credit"
+        >Desarrollado por: <a
+          href="https://juanmderosa-developer.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          >JuanmderosaDeveloper<span class="sr-only"> (pestaña nueva)</span></a
+        ></span
+      >
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,24 @@
+---
+import '../styles/global.css';
+import manrope from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+---
+<!doctype html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#232323" />
+    <link rel="preload" href={manrope} as="font" type="font/woff2" crossorigin="anonymous" />
+    <title>Marq Estudio | Mariana Toledo · Arquitecta en Gral. Las Heras</title>
+    <meta name="description" content="Arquitectura, diseño y dirección de obra en Gral. Las Heras. Proyecto arquitectónico, remodelaciones, ampliaciones, planos municipales y asesoramiento con Mariana Toledo." />
+    <meta property="og:title" content="Marq Estudio | Mariana Toledo · Arquitecta" />
+    <meta property="og:description" content="Pensar, proyectar y materializar espacios. Arquitectura y dirección de obra en Gral. Las Heras." />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <link rel="icon" type="image/png" href="/images/marq-logo.png" />
+  </head>
+<body id="inicio">
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <slot />
+</body>
+</html>

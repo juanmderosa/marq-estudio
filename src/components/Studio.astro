@@ -1,0 +1,50 @@
+---
+import { Picture } from 'astro:assets';
+import architecture from '../assets/images/arquitectura.webp';
+---
+<section
+  class="studio section-space"
+  id="estudio"
+  aria-labelledby="studio-title">
+  <div class="container studio-grid">
+    <figure class="studio-figure">
+      <Picture
+        src={architecture}
+        formats={['avif', 'webp']}
+        fallbackFormat="jpeg"
+        quality={40}
+        widths={[320, 420, 540, 720, 1080, 1200]}
+        sizes="(max-width: 380px) 90vw, (max-width: 700px) 88vw, (max-width: 1000px) 42.3vw, (max-width: 1364px) 40.04vw, 546px"
+        width="1200"
+        height="800"
+        loading="lazy"
+        decoding="async"
+        alt="Referencia arquitectónica: vivienda con grandes aberturas y conexión con el exterior."
+      /><figcaption>
+        Fotografía ilustrativa · No corresponde a una obra del estudio.
+      </figcaption>
+    </figure>
+    <div class="studio-copy">
+      <p class="eyebrow">02 / El estudio</p><h2 id="studio-title">
+        Una idea.<br />Un proyecto.<br /><span>Tu espacio.</span>
+      </h2><div class="professional">
+        <span
+          class="professional-line"
+          aria-hidden="true"
+        ></span><div>
+          <h3>Mariana Toledo</h3><p>Arquitecta · Marq Estudio</p>
+        </div>
+      </div><p>
+        Pensar, proyectar y materializar espacios. Desde el proyecto
+        arquitectónico hasta el seguimiento de la obra, con propuestas pensadas
+        según cada necesidad.
+      </p><p>
+        Diseño, remodelaciones, documentación técnica y asesoramiento para tomar
+        decisiones antes de comenzar.
+      </p><a
+        href="#contacto"
+        class="text-link"
+        >Conversemos sobre tu idea <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
